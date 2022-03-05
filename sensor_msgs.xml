@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.1.0/rti_dds_profiles.xsd" version="6.1.0">
+    <types>
+      <module name="std_msgs">
+        <module name="msg">
+          <module name="dds_">
+            <struct name="Float32_">
+              <member name="data" type="float32"/>
+            </struct>
+          </module>
+        </module>
+      </module>
+    </types>
+
+    <qos_library name="ROS_QOS">
+      <qos_profile name="Default" base_name="BuiltinQosSnippetLib::QosPolicy.Reliability.BestEffort" is_default_qos="true">
+      </qos_profile>
+    </qos_library>
+
+    <domain_library name="ROS2_DOMAIN_LIB">
+      <domain name="RIO_SIM_TO_ROS" domain_id="0">
+        <register_type name="std_msgs::msg::dds_::Float32_" type_ref="std_msgs::msg::dds_::Float32_"/>
+        <topic name="rt/joy_control" register_type_ref="std_msgs::msg::dds_::Float32_"/>
+      </domain>
+    </domain_library>
+
+    <domain_participant_library name="ROS2_PARTICIPANT_LIB">
+      <domain_participant name="sim_joystick_publisher" domain_ref="ROS2_DOMAIN_LIB::RIO_SIM_TO_ROS">
+        <publisher name="joystick_publisher">
+          <data_writer name="joy_control_writer" topic_ref="rt/joy_control"/>
+        </publisher>
+      </domain_participant>
+    </domain_participant_library>
+
+</dds>
